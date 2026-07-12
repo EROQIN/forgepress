@@ -19,6 +19,13 @@ jobs:
         with:
           node-version: 22
       - run: pnpm install --frozen-lockfile=false
+      - name: Upload generated dependency lockfile
+        uses: actions/upload-artifact@v4
+        with:
+          name: pnpm-lock
+          path: pnpm-lock.yaml
+          if-no-files-found: error
+          retention-days: 1
       - name: Typecheck workspace
         run: pnpm typecheck
       - name: Build shared packages
