@@ -21,7 +21,9 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Build Workers edition
+        run: pnpm build:cf
       - name: Apply D1 migrations
         run: pnpm --filter @forgepress/web wrangler d1 migrations apply forgepress-db --remote
-      - name: Deploy Workers edition
-        run: pnpm deploy:cf
+      - name: Deploy Workers edition from repository root
+        run: pnpm deploy:cf:built

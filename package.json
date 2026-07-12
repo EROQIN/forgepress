@@ -8,11 +8,17 @@
   },
   "scripts": {
     "dev": "pnpm --filter @forgepress/web dev",
-    "build": "pnpm -r build",
+    "build": "pnpm build:packages && pnpm build:pages && pnpm build:cf",
+    "build:packages": "pnpm --filter @forgepress/content --filter @forgepress/theme build",
+    "build:web": "pnpm --filter @forgepress/web build",
+    "build:pages": "pnpm --filter @forgepress/pages build",
+    "build:cf": "pnpm --filter @forgepress/web exec opennextjs-cloudflare build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "preview:cf": "pnpm --filter @forgepress/web preview",
     "deploy:cf": "pnpm --filter @forgepress/web deploy",
+    "deploy:cf:built": "pnpm --filter @forgepress/web exec wrangler deploy --config ../../wrangler.jsonc",
+    "upload:cf:built": "pnpm --filter @forgepress/web exec wrangler versions upload --config ../../wrangler.jsonc",
     "deploy:pages": "pnpm --filter @forgepress/pages deploy",
     "cf:bootstrap": "node scripts/cloudflare-bootstrap.mjs"
   },
