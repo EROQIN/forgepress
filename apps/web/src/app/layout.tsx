@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { siteConfig } from "@forgepress/theme";
 import "./globals.css";
+import "./cinematic.css";
 
 export const metadata: Metadata = {
   title: {
@@ -17,17 +18,12 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body>
-        <div className="ambient ambient-one" aria-hidden="true" />
-        <div className="ambient ambient-two" aria-hidden="true" />
-        <div className="star-field" aria-hidden="true">
-          <span>✦</span><span>⋆</span><span>✧</span><span>✦</span><span>⋆</span>
-        </div>
         <header className="site-header">
           <Link className="brand" href="/">
             <span className="brand-mark" aria-hidden="true">F</span>
             <span>
               <strong>{siteConfig.title}</strong>
-              <small>edge-native journal</small>
+              <small>independent technical journal</small>
             </span>
           </Link>
           <nav aria-label="主导航">
@@ -38,7 +34,7 @@ export default function RootLayout({
         </header>
         <main>{children}</main>
         <footer className="site-footer">
-          <span>ForgePress · built for creators at the edge</span>
+          <span>ForgePress · ideas, systems &amp; craft at the edge</span>
           <span aria-hidden="true">✦</span>
         </footer>
       </body>
