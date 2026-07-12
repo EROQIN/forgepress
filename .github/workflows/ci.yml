@@ -25,18 +25,22 @@ jobs:
       - name: Typecheck workspace
         run: pnpm typecheck
       - name: Build shared packages
-        run: pnpm --filter @forgepress/content --filter @forgepress/theme build
+        run: pnpm build:packages
       - name: Build Cloudflare Pages edition
-        run: pnpm --filter @forgepress/pages build
+        run: pnpm build:pages
       - name: Build Cloudflare Workers edition
         run: |
           set -o pipefail
-          pnpm --filter @forgepress/web build 2>&1 | tee workers-build.log
+          pnpm build:cf 2>&1 | tee workers-build.log
+      - name: Validate root Wrangler deployment entrypoint
+        run: |
+          node -e "const fs=require('node:fs'); const source=fs.readFileSync('wrangler.jsonc','utf8'); fs.writeFileSync('wrangler.ci.jsonc', source.replace('REPLACE_WITH_D1_DATABASE_ID','00000000-0000-0000-0000-000000000000'));"
+          pnpm --dir apps/web exec wrangler deploy --config ../../wrangler.ci.jsonc --dry-run --outdir ../../.wrangler-dry-run
       - name: Upload Workers build failure log
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: workers-build-log
           path: workers-build.log
-          if-no-files-found: error
+          if-no-files-found: ignore
           retention-days: 3
