@@ -5,80 +5,86 @@ import { siteConfig } from "@forgepress/theme";
 export default async function HomePage() {
   const posts = await listPublishedPosts();
   const [featured, ...rest] = posts;
+  const latest = rest.slice(0, 4);
 
   return (
-    <>
-      <section className="hero shell">
-        <div className="hero-copy">
-          <span className="eyebrow">✦ FULL-STACK ANIME TECH BLOG</span>
-          <h1>把代码、灵感与<br /><em>星光</em>写进同一个宇宙。</h1>
-          <p>{siteConfig.tagline}</p>
-          <div className="hero-actions">
-            <Link className="button primary" href={`/posts/${featured.slug}`}>开始阅读</Link>
-            <Link className="button ghost" href="/admin">进入控制台</Link>
-          </div>
-          <div className="tech-strip" aria-label="技术栈">
-            <span>Next.js</span><span>Workers</span><span>D1</span><span>R2</span>
-          </div>
-        </div>
-        <div className="mascot-card" aria-label="ForgePress 原创星灵形象">
-          <div className="halo" aria-hidden="true" />
-          <div className="mascot" aria-hidden="true">
-            <div className="ear left" /><div className="ear right" />
-            <div className="face">
-              <span className="eye left" /><span className="eye right" />
-              <span className="mouth">ω</span>
+    <div className="cinematic-home">
+      <section className="cinematic-hero" aria-labelledby="hero-title">
+        <div className="hero-grain" aria-hidden="true" />
+        <div className="hero-inner">
+          <div className="hero-editorial">
+            <span className="hero-kicker">Independent technical journal · Edge native</span>
+            <h1 id="hero-title">
+              记录思考，
+              <em>构建未来。</em>
+            </h1>
+            <p className="hero-deck">
+              {siteConfig.tagline} 在代码、系统与审美之间，沉淀值得反复阅读的技术叙事。
+            </p>
+            <div className="hero-actions">
+              <Link className="button primary" href={`/posts/${featured.slug}`}>
+                开始阅读&nbsp; ↗
+              </Link>
+              <Link className="button ghost" href="#latest">
+                浏览最新文章
+              </Link>
             </div>
-            <div className="ribbon">FORGE</div>
+            <div className="hero-meta" aria-label="站点技术信息">
+              <span>Next.js 16</span>
+              <span>Cloudflare Workers</span>
+              <span>D1 · R2</span>
+              <span>Open source</span>
+            </div>
           </div>
-          <div className="mascot-caption">
-            <strong>Lumi</strong>
-            <span>负责守护你的草稿与深夜灵感</span>
-          </div>
+
+          <aside className="feature-rail" aria-label="精选文章">
+            <div className="feature-rail-label">
+              <span>Editor&apos;s selection</span>
+              <span>01 / {String(posts.length).padStart(2, "0")}</span>
+            </div>
+            <Link className="feature-rail-card" href={`/posts/${featured.slug}`}>
+              <div>
+                <div className="tags">
+                  {featured.tags.slice(0, 2).map((tag) => <span key={tag}>{tag}</span>)}
+                </div>
+                <h2>{featured.title}</h2>
+                <p>{featured.excerpt}</p>
+                <small>{featured.readingMinutes} 分钟阅读 · 阅读全文 ↗</small>
+              </div>
+              <div className="feature-rail-art" aria-hidden="true" />
+            </Link>
+          </aside>
         </div>
+        <a className="scroll-cue" href="#latest">Scroll to explore</a>
       </section>
 
-      <section className="shell section">
-        <div className="section-heading">
+      <section className="editorial-section" id="latest">
+        <div className="editorial-heading">
           <div>
-            <span className="eyebrow">FEATURED TRANSMISSION</span>
-            <h2>本期精选</h2>
-          </div>
-          <span className="signal">LIVE · EDGE NETWORK</span>
-        </div>
-        <Link className="featured-card" href={`/posts/${featured.slug}`}>
-          <div className="featured-art" aria-hidden="true">
-            <span>01</span>
-            <div className="orbit" />
-          </div>
-          <div>
-            <div className="tags">{featured.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-            <h3>{featured.title}</h3>
-            <p>{featured.excerpt}</p>
-            <small>{featured.readingMinutes} 分钟阅读 · {new Date(featured.publishedAt).toLocaleDateString("zh-CN")}</small>
-          </div>
-        </Link>
-      </section>
-
-      <section className="shell section">
-        <div className="section-heading">
-          <div>
-            <span className="eyebrow">LATEST LOGS</span>
+            <span className="eyebrow">LATEST FIELD NOTES</span>
             <h2>最近文章</h2>
           </div>
+          <p>
+            从框架原理、边缘计算到产品工程，用清晰的结构记录复杂问题，也保留技术创作应有的温度与质感。
+          </p>
         </div>
-        <div className="post-grid">
-          {rest.map((post, index) => (
-            <Link className="post-card" key={post.id} href={`/posts/${post.slug}`}>
-              <span className="post-number">0{index + 2}</span>
-              <div className="tags">{post.tags.slice(0, 2).map((tag) => <span key={tag}>{tag}</span>)}</div>
+
+        <div className="cinematic-grid">
+          {latest.map((post, index) => (
+            <Link className="cinematic-card" key={post.id} href={`/posts/${post.slug}`}>
+              <span className="card-index">0{index + 2}</span>
               <h3>{post.title}</h3>
               <p>{post.excerpt}</p>
-              <small>{post.readingMinutes} 分钟阅读</small>
+              <footer>
+                <div className="tags">
+                  {post.tags.slice(0, 2).map((tag) => <span key={tag}>{tag}</span>)}
+                </div>
+                <span>{post.readingMinutes} MIN</span>
+              </footer>
             </Link>
           ))}
         </div>
       </section>
-    </>
+    </div>
   );
 }
