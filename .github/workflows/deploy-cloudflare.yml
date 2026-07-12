@@ -19,7 +19,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: pnpm install --frozen-lockfile=false
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - name: Apply D1 migrations
         run: pnpm --filter @forgepress/web wrangler d1 migrations apply forgepress-db --remote
       - name: Deploy Workers edition
