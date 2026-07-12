@@ -20,6 +20,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Lint workspace
+        run: pnpm lint
       - name: Typecheck workspace
         run: pnpm typecheck
       - name: Build shared packages
