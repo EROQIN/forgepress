@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">ForgePress cinematic botanical nightscape</title>
+  <desc id="desc">An original abstract night garden with luminous flowers and drifting particles.</desc>
+  <defs>
+    <radialGradient id="sky" cx="58%" cy="43%" r="72%">
+      <stop offset="0" stop-color="#193337"/>
+      <stop offset=".38" stop-color="#07171a"/>
+      <stop offset="1" stop-color="#020405"/>
+    </radialGradient>
+    <linearGradient id="stem" x1="0" y1="1" x2=".4" y2="0">
+      <stop stop-color="#16231e"/><stop offset="1" stop-color="#9d7b42"/>
+    </linearGradient>
+    <radialGradient id="petal">
+      <stop stop-color="#fff3d5"/><stop offset=".38" stop-color="#d9b878"/><stop offset="1" stop-color="#66502e"/>
+    </radialGradient>
+    <radialGradient id="petalCool">
+      <stop stop-color="#e8f3ed"/><stop offset=".45" stop-color="#809d91"/><stop offset="1" stop-color="#2a3a34"/>
+    </radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="12"/></filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="2.2"/></filter>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <ellipse cx="930" cy="540" rx="390" ry="280" fill="#315a55" opacity=".12" filter="url(#glow)"/>
+  <ellipse cx="1210" cy="680" rx="300" ry="190" fill="#8f6332" opacity=".12" filter="url(#glow)"/>
+  <g opacity=".72" fill="none" stroke="url(#stem)" stroke-linecap="round">
+    <path d="M380 1010 Q410 750 360 430" stroke-width="8"/>
+    <path d="M520 1010 Q550 680 620 350" stroke-width="7"/>
+    <path d="M710 1010 Q690 720 770 470" stroke-width="6"/>
+    <path d="M875 1010 Q850 640 960 260" stroke-width="8"/>
+    <path d="M1050 1010 Q1080 690 1160 390" stroke-width="7"/>
+    <path d="M1240 1010 Q1220 700 1320 470" stroke-width="8"/>
+    <path d="M1440 1010 Q1400 760 1480 590" stroke-width="7"/>
+    <path d="M190 1010 Q210 790 250 620" stroke-width="6"/>
+  </g>
+  <g fill="url(#petal)" opacity=".9">
+    <g transform="translate(360 420)"><circle r="13"/><ellipse rx="14" ry="44" transform="rotate(0) translate(0 -35)"/><ellipse rx="14" ry="44" transform="rotate(72) translate(0 -35)"/><ellipse rx="14" ry="44" transform="rotate(144) translate(0 -35)"/><ellipse rx="14" ry="44" transform="rotate(216) translate(0 -35)"/><ellipse rx="14" ry="44" transform="rotate(288) translate(0 -35)"/></g>
+    <g transform="translate(620 345) scale(.72)"><circle r="14"/><ellipse rx="16" ry="48" transform="rotate(0) translate(0 -38)"/><ellipse rx="16" ry="48" transform="rotate(60) translate(0 -38)"/><ellipse rx="16" ry="48" transform="rotate(120) translate(0 -38)"/><ellipse rx="16" ry="48" transform="rotate(180) translate(0 -38)"/><ellipse rx="16" ry="48" transform="rotate(240) translate(0 -38)"/><ellipse rx="16" ry="48" transform="rotate(300) translate(0 -38)"/></g>
+    <g transform="translate(1160 390) scale(.9)"><circle r="14"/><ellipse rx="15" ry="52" transform="rotate(0) translate(0 -42)"/><ellipse rx="15" ry="52" transform="rotate(72) translate(0 -42)"/><ellipse rx="15" ry="52" transform="rotate(144) translate(0 -42)"/><ellipse rx="15" ry="52" transform="rotate(216) translate(0 -42)"/><ellipse rx="15" ry="52" transform="rotate(288) translate(0 -42)"/></g>
+  </g>
+  <g fill="url(#petalCool)" opacity=".82">
+    <g transform="translate(960 260) scale(.8)"><circle r="12"/><ellipse rx="13" ry="45" transform="rotate(0) translate(0 -36)"/><ellipse rx="13" ry="45" transform="rotate(72) translate(0 -36)"/><ellipse rx="13" ry="45" transform="rotate(144) translate(0 -36)"/><ellipse rx="13" ry="45" transform="rotate(216) translate(0 -36)"/><ellipse rx="13" ry="45" transform="rotate(288) translate(0 -36)"/></g>
+    <g transform="translate(770 470) scale(.55)"><circle r="12"/><ellipse rx="13" ry="45" transform="rotate(0) translate(0 -36)"/><ellipse rx="13" ry="45" transform="rotate(90) translate(0 -36)"/><ellipse rx="13" ry="45" transform="rotate(180) translate(0 -36)"/><ellipse rx="13" ry="45" transform="rotate(270) translate(0 -36)"/></g>
+  </g>
+  <g fill="#f4d696" opacity=".66" filter="url(#soft)">
+    <circle cx="270" cy="280" r="3"/><circle cx="445" cy="210" r="2"/><circle cx="650" cy="175" r="4"/><circle cx="810" cy="305" r="2"/><circle cx="1040" cy="190" r="3"/><circle cx="1270" cy="260" r="2"/><circle cx="1410" cy="180" r="4"/>
+    <circle cx="340" cy="580" r="2"/><circle cx="550" cy="510" r="3"/><circle cx="720" cy="620" r="2"/><circle cx="920" cy="510" r="4"/><circle cx="1110" cy="590" r="2"/><circle cx="1360" cy="520" r="3"/>
+  </g>
+  <rect width="1600" height="1000" fill="url(#sky)" opacity=".12"/>
+  <path d="M0 780 Q390 650 700 790 T1600 760 V1000 H0Z" fill="#020404" opacity=".72"/>
+</svg>
