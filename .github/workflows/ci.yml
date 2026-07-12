@@ -19,5 +19,11 @@ jobs:
         with:
           node-version: 22
       - run: pnpm install --frozen-lockfile=false
-      - run: pnpm typecheck
-      - run: pnpm build
+      - name: Typecheck workspace
+        run: pnpm typecheck
+      - name: Build shared packages
+        run: pnpm --filter @forgepress/content --filter @forgepress/theme build
+      - name: Build Cloudflare Pages edition
+        run: pnpm --filter @forgepress/pages build
+      - name: Build Cloudflare Workers edition
+        run: pnpm --filter @forgepress/web build
