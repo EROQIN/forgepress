@@ -29,40 +29,41 @@ export interface ThemeTokens {
 
 export const sakuraNebulaTheme: ThemeTokens = {
   colors: {
-    background: "#0e1024",
-    surface: "rgba(26, 29, 62, 0.72)",
-    surfaceStrong: "#171a38",
-    foreground: "#f7f5ff",
-    muted: "#b9b5d1",
-    primary: "#9b7bff",
-    accent: "#ff7ab6",
-    cyan: "#5ee7f7",
-    border: "rgba(255, 255, 255, 0.12)"
+    background: "#080a0a",
+    surface: "rgba(17, 20, 20, 0.82)",
+    surfaceStrong: "#171a19",
+    foreground: "#f0efe9",
+    muted: "#9ea39f",
+    primary: "#d8b45f",
+    accent: "#d8b45f",
+    cyan: "#d8b45f",
+    border: "rgba(240, 239, 233, 0.14)"
   },
   typography: {
-    sans: '"Inter", "Noto Sans SC", system-ui, sans-serif',
-    mono: '"JetBrains Mono", "SFMono-Regular", monospace',
-    article: '"Noto Serif SC", "Source Han Serif SC", serif'
+    sans: 'var(--font-sans), "Noto Sans SC", system-ui, sans-serif',
+    mono: 'var(--font-mono), "SFMono-Regular", monospace',
+    article: 'var(--font-serif), "Noto Serif SC", serif'
   },
   radius: {
-    small: "10px",
-    medium: "16px",
-    card: "24px",
+    small: "8px",
+    medium: "12px",
+    card: "16px",
     pill: "999px"
   },
   layout: {
-    contentWidth: "1120px",
-    articleWidth: "760px"
+    contentWidth: "1240px",
+    articleWidth: "70ch"
   }
 };
 
 export const siteConfig = {
   title: "ForgePress",
-  tagline: "在星海边缘，记录代码、灵感与构建过程。",
-  description: "A customizable anime-inspired full-stack technical blog.",
+  tagline: "在代码与系统之间，写下值得反复阅读的技术故事。",
+  description: "An editorial, Cloudflare-native technical publishing platform.",
   navigation: [
-    { href: "/", label: "首页" },
-    { href: "/posts/edge-native-blog", label: "文章" },
-    { href: "/admin", label: "控制台" }
+    { href: "/", label: "文章" },
+    { href: "/archive", label: "归档" },
+    { href: "/topics", label: "专题" },
+    { href: "/about", label: "关于" }
   ]
 } as const;
