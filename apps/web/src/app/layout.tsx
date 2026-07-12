@@ -4,6 +4,7 @@ import { Geist, Geist_Mono, Noto_Serif_SC } from "next/font/google";
 import { siteConfig } from "@forgepress/theme";
 import "./globals.css";
 import "./cinematic.css";
+import "./states.css";
 
 const sans = Geist({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
