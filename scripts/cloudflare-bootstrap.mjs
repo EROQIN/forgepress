@@ -4,7 +4,10 @@ import { resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 const web = resolve(root, "apps/web");
-const wranglerFile = resolve(web, "wrangler.jsonc");
+const wranglerFiles = [
+  resolve(root, "wrangler.jsonc"),
+  resolve(web, "wrangler.jsonc"),
+];
 
 function run(args, options = {}) {
   return execFileSync("pnpm", ["--dir", web, "exec", "wrangler", ...args], {
@@ -30,6 +33,20 @@ function findDatabaseId(output) {
   );
 }
 
+function writeDatabaseId(file, databaseId) {
+  const current = readFileSync(file, "utf8");
+  const updated = current.replace(
+    /"database_id"\s*:\s*"[^"]+"/,
+    `"database_id": "${databaseId}"`,
+  );
+
+  if (updated === current) {
+    throw new Error(`Unable to update database_id in ${file}`);
+  }
+
+  writeFileSync(file, updated);
+}
+
 console.log("→ Checking Cloudflare authentication");
 run(["whoami"]);
 
@@ -48,12 +65,9 @@ if (!databaseId) {
 }
 
 console.log(`→ Using D1 database ${databaseId}`);
-const current = readFileSync(wranglerFile, "utf8");
-const updated = current.replace(
-  /"database_id"\s*:\s*"[^"]+"/,
-  `"database_id": "${databaseId}"`,
-);
-writeFileSync(wranglerFile, updated);
+for (const file of wranglerFiles) {
+  writeDatabaseId(file, databaseId);
+}
 
 console.log("→ Creating or reusing R2 bucket");
 capture(["r2", "bucket", "create", "forgepress-media"]);
