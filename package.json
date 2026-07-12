@@ -1,0 +1,22 @@
+{
+  "name": "forgepress",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@10.13.1",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @forgepress/web dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "preview:cf": "pnpm --filter @forgepress/web preview",
+    "deploy:cf": "pnpm --filter @forgepress/web deploy",
+    "deploy:pages": "pnpm --filter @forgepress/pages deploy",
+    "cf:bootstrap": "node scripts/cloudflare-bootstrap.mjs"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0"
+  }
+}

@@ -1,0 +1,14 @@
+node_modules
+.pnpm-store
+.next
+.open-next
+dist
+.env
+.env.*
+!.env.example
+.wrangler
+.dev.vars
+.DS_Store
+coverage
+playwright-report
+test-results

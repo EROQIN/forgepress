@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.13.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Lint workspace
+        run: pnpm lint
+      - name: Typecheck workspace
+        run: pnpm typecheck
+      - name: Build shared packages
+        run: pnpm --filter @forgepress/content --filter @forgepress/theme build
+      - name: Build Cloudflare Pages edition
+        run: pnpm --filter @forgepress/pages build
+      - name: Build Cloudflare Workers edition
+        run: |
+          set -o pipefail
+          pnpm --filter @forgepress/web build 2>&1 | tee workers-build.log
+      - name: Upload Workers build failure log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workers-build-log
+          path: workers-build.log
+          if-no-files-found: error
+          retention-days: 3
