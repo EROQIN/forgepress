@@ -29,34 +29,52 @@ function mapRow(row: D1Post): Post {
   };
 }
 
+function reportReadFallback(operation: string, error: unknown): void {
+  const message = error instanceof Error ? error.message : "Unknown D1 read error";
+  console.warn(
+    `[forgepress] D1 is not ready during ${operation}; falling back to bundled content. ${message}`
+  );
+}
+
 export async function listPublishedPosts(): Promise<Post[]> {
   const { DB } = await getEnv();
   if (!DB) return seedPosts;
 
-  const result = await DB.prepare(
-    `SELECT id, title, slug, excerpt, content, cover_url, tags_json, status, published_at
-     FROM posts
-     WHERE status = 'published'
-     ORDER BY published_at DESC`
-  ).all<D1Post>();
+  try {
+    const result = await DB.prepare(
+      `SELECT id, title, slug, excerpt, content, cover_url, tags_json, status, published_at
+       FROM posts
+       WHERE status = 'published'
+       ORDER BY published_at DESC`
+    ).all<D1Post>();
 
-  return result.results.length > 0 ? result.results.map(mapRow) : seedPosts;
+    return result.results.length > 0 ? result.results.map(mapRow) : seedPosts;
+  } catch (error) {
+    reportReadFallback("published-post listing", error);
+    return seedPosts;
+  }
 }
 
 export async function findPublishedPost(slug: string): Promise<Post | undefined> {
+  const seedPost = seedPosts.find((post) => post.slug === slug);
   const { DB } = await getEnv();
-  if (!DB) return seedPosts.find((post) => post.slug === slug);
+  if (!DB) return seedPost;
 
-  const row = await DB.prepare(
-    `SELECT id, title, slug, excerpt, content, cover_url, tags_json, status, published_at
-     FROM posts
-     WHERE slug = ? AND status = 'published'
-     LIMIT 1`
-  )
-    .bind(slug)
-    .first<D1Post>();
+  try {
+    const row = await DB.prepare(
+      `SELECT id, title, slug, excerpt, content, cover_url, tags_json, status, published_at
+       FROM posts
+       WHERE slug = ? AND status = 'published'
+       LIMIT 1`
+    )
+      .bind(slug)
+      .first<D1Post>();
 
-  return row ? mapRow(row) : seedPosts.find((post) => post.slug === slug);
+    return row ? mapRow(row) : seedPost;
+  } catch (error) {
+    reportReadFallback(`post lookup for ${slug}`, error);
+    return seedPost;
+  }
 }
 
 export async function createPost(input: {
