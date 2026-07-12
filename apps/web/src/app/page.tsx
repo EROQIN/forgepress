@@ -2,88 +2,90 @@ import Link from "next/link";
 import { listPublishedPosts } from "@/lib/posts";
 import { siteConfig } from "@forgepress/theme";
 
+const topicMap = [
+  { name: "前端工程", count: 12, href: "/topics#frontend" },
+  { name: "Cloudflare & Edge", count: 8, href: "/topics#edge" },
+  { name: "架构设计", count: 6, href: "/topics#architecture" },
+  { name: "设计工程", count: 5, href: "/topics#design" }
+];
+
 export default async function HomePage() {
   const posts = await listPublishedPosts();
-  const [featured, ...rest] = posts;
-  const latest = rest.slice(0, 4);
+  const [featured, ...latest] = posts;
 
   return (
-    <div className="cinematic-home">
-      <section className="cinematic-hero" aria-labelledby="hero-title">
-        <div className="hero-grain" aria-hidden="true" />
-        <div className="hero-inner">
-          <div className="hero-editorial">
-            <span className="hero-kicker">Independent technical journal · Edge native</span>
-            <h1 id="hero-title">
-              记录思考，
-              <em>构建未来。</em>
-            </h1>
-            <p className="hero-deck">
-              {siteConfig.tagline} 在代码、系统与审美之间，沉淀值得反复阅读的技术叙事。
-            </p>
-            <div className="hero-actions">
-              <Link className="button primary" href={`/posts/${featured.slug}`}>
-                开始阅读&nbsp; ↗
-              </Link>
-              <Link className="button ghost" href="#latest">
-                浏览最新文章
-              </Link>
-            </div>
-            <div className="hero-meta" aria-label="站点技术信息">
-              <span>Next.js 16</span>
-              <span>Cloudflare Workers</span>
-              <span>D1 · R2</span>
-              <span>Open source</span>
-            </div>
+    <div className="editorial-home">
+      <section className="editorial-hero" aria-labelledby="hero-title">
+        <div className="hero-copy">
+          <h1 id="hero-title">记录思考，<br />构建未来。</h1>
+          <p>{siteConfig.tagline}</p>
+          <div className="hero-actions">
+            <Link className="button primary" href={`/posts/${featured.slug}`}>开始阅读</Link>
+            <Link className="button ghost" href="/archive">浏览归档</Link>
           </div>
-
-          <aside className="feature-rail" aria-label="精选文章">
-            <div className="feature-rail-label">
-              <span>Editor&apos;s selection</span>
-              <span>01 / {String(posts.length).padStart(2, "0")}</span>
-            </div>
-            <Link className="feature-rail-card" href={`/posts/${featured.slug}`}>
-              <div>
-                <div className="tags">
-                  {featured.tags.slice(0, 2).map((tag) => <span key={tag}>{tag}</span>)}
-                </div>
-                <h2>{featured.title}</h2>
-                <p>{featured.excerpt}</p>
-                <small>{featured.readingMinutes} 分钟阅读 · 阅读全文 ↗</small>
-              </div>
-              <div className="feature-rail-art" aria-hidden="true" />
-            </Link>
-          </aside>
         </div>
-        <a className="scroll-cue" href="#latest">Scroll to explore</a>
+
+        <div className="hero-visual" aria-label="夜间植物主视觉与本期精选">
+          <div className="hero-image" aria-hidden="true" />
+          <Link className="featured-story" href={`/posts/${featured.slug}`}>
+            <span>本期精选</span>
+            <h2>{featured.title}</h2>
+            <p>{featured.excerpt}</p>
+            <footer>
+              <time dateTime={featured.publishedAt}>{new Date(featured.publishedAt).toLocaleDateString("zh-CN")}</time>
+              <span>{featured.readingMinutes} 分钟阅读</span>
+            </footer>
+          </Link>
+        </div>
       </section>
 
-      <section className="editorial-section" id="latest">
-        <div className="editorial-heading">
-          <div>
-            <span className="eyebrow">LATEST FIELD NOTES</span>
-            <h2>最近文章</h2>
-          </div>
-          <p>
-            从框架原理、边缘计算到产品工程，用清晰的结构记录复杂问题，也保留技术创作应有的温度与质感。
-          </p>
+      <section className="latest-section" aria-labelledby="latest-title">
+        <div className="section-title-stack">
+          <h2 id="latest-title">最近文章</h2>
+          <p>从框架原理、边缘计算到设计工程，记录复杂问题背后的选择与取舍。</p>
         </div>
 
-        <div className="cinematic-grid">
+        <div className="article-ledger">
           {latest.map((post, index) => (
-            <Link className="cinematic-card" key={post.id} href={`/posts/${post.slug}`}>
-              <span className="card-index">0{index + 2}</span>
-              <h3>{post.title}</h3>
-              <p>{post.excerpt}</p>
-              <footer>
-                <div className="tags">
-                  {post.tags.slice(0, 2).map((tag) => <span key={tag}>{tag}</span>)}
+            <Link className={`ledger-row${index === 0 ? " ledger-featured" : ""}`} key={post.id} href={`/posts/${post.slug}`}>
+              {index === 0 && <div className="ledger-image" aria-hidden="true" />}
+              <span className="ledger-index">{String(index + 1).padStart(2, "0")}</span>
+              <div className="ledger-copy">
+                <h3>{post.title}</h3>
+                <p>{post.excerpt}</p>
+                <div className="ledger-meta">
+                  <time dateTime={post.publishedAt}>{new Date(post.publishedAt).toLocaleDateString("zh-CN")}</time>
+                  <span>{post.readingMinutes} 分钟阅读</span>
+                  <span>{post.tags[0]}</span>
                 </div>
-                <span>{post.readingMinutes} MIN</span>
-              </footer>
+              </div>
+              <span className="ledger-arrow" aria-hidden="true">→</span>
             </Link>
           ))}
         </div>
+
+        <Link className="text-link" href="/archive">查看全部文章 →</Link>
+      </section>
+
+      <section className="topic-section" aria-labelledby="topics-title">
+        <h2 id="topics-title">专题索引</h2>
+        <div className="topic-index">
+          {topicMap.map((topic) => (
+            <Link key={topic.name} href={topic.href}>
+              <span>{topic.name}</span>
+              <small>{topic.count} 篇文章</small>
+              <i aria-hidden="true">↗</i>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="manifesto-section">
+        <div>
+          <p>技术博客不只是知识仓库。</p>
+          <p>它也可以拥有叙事、节奏和审美。</p>
+        </div>
+        <Link className="button ghost" href="/about">了解本站</Link>
       </section>
     </div>
   );
